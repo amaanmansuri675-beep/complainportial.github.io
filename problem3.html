@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cleaning Problem</title>
+<style>
+body{font-family:Arial;background:#f1f8e9;margin:0}
+header{background:#2e7d32;color:white;padding:20px;text-align:center}
+.container{padding:20px;max-width:900px;margin:auto}
+.box{background:white;padding:20px;border-radius:10px;margin-bottom:20px}
+input,textarea{width:100%;padding:10px;margin:8px 0}
+button{background:#2e7d32;color:white;border:none;padding:12px}
+.complaint{border-left:5px solid green;padding:15px;margin:10px 0}
+</style>
+</head>
+<body>
+
+<header><h1>Cleaning Problem</h1></header>
+
+<div class="container">
+
+<div class="box">
+<p>College me safai ki kami se health issues aur unhygienic environment banta hai.</p>
+</div>
+
+<div class="box">
+<input id="name" placeholder="Your Name">
+<input id="area" placeholder="Area Location">
+<textarea id="msg" placeholder="Describe cleaning issue"></textarea>
+<button onclick="save()">Submit</button>
+</div>
+
+<div class="box"><div id="list"></div></div>
+
+</div>
+
+<script>
+function save(){
+let c=JSON.parse(localStorage.getItem("clean")||"[]");
+c.push({n:name.value,a:area.value,m:msg.value,d:new Date().toLocaleDateString()});
+localStorage.setItem("clean",JSON.stringify(c));
+location.reload();
+}
+let html="";
+(JSON.parse(localStorage.getItem("clean")||"[]")).forEach(e=>{
+html+=`<div class="complaint"><b>${e.n}</b><br>${e.a}<br>${e.m}<br>${e.d}</div>`;
+});
+list.innerHTML=html;
+</script>
+
+</body>
+</html>
