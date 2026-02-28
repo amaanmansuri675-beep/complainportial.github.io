@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Shortage Complaint</title>
+
+<style>
+body{
+font-family:Arial;
+margin:0;
+background:#f4f6f9;
+}
+
+header{
+background:#b71c1c;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+box-shadow:0 4px 8px rgba(0,0,0,0.2);
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+}
+
+button{
+background:#b71c1c;
+color:white;
+border:none;
+padding:12px;
+cursor:pointer;
+}
+
+.complaint{
+border-left:5px solid red;
+padding:15px;
+margin:10px 0;
+background:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Staff Shortage Problem</h1>
+<p>Report Teacher / Staff Shortage Issues</p>
+</header>
+
+<div class="container">
+
+<div class="box">
+<h2>Problem Information</h2>
+
+<p>
+Staff shortage ki wajah se classes regular nahi hoti, syllabus time par complete nahi hota,
+aur students ko proper guidance nahi milti.
+</p>
+
+<ul>
+<li>Teachers ki kami</li>
+<li>Lab assistants unavailable</li>
+<li>Office staff shortage</li>
+<li>Guest faculty delay</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>Submit Complaint</h2>
+
+<input id="name" placeholder="Your Name">
+<input id="course" placeholder="Course / Class">
+<textarea id="msg" placeholder="Describe the staff shortage problem"></textarea>
+
+<button onclick="saveComplaint()">Submit Complaint</button>
+</div>
+
+<div class="box">
+<h2>All Staff Shortage Complaints</h2>
+<div id="list"></div>
+</div>
+
+</div>
+
+<script>
+function saveComplaint(){
+
+let name=document.getElementById("name").value;
+let course=document.getElementById("course").value;
+let msg=document.getElementById("msg").value;
+
+let complaints=JSON.parse(localStorage.getItem("staffComplaints")||"[]");
+
+complaints.push({
+name,course,msg,date:new Date().toLocaleDateString()
+});
+
+localStorage.setItem("staffComplaints",JSON.stringify(complaints));
+
+alert("Complaint Submitted Successfully!");
+location.reload();
+}
+
+function showComplaints(){
+
+let complaints=JSON.parse(localStorage.getItem("staffComplaints")||"[]");
+
+let html="";
+
+complaints.forEach(c=>{
+html+=`
+<div class="complaint">
+<b>Name:</b> ${c.name}<br>
+<b>Class:</b> ${c.course}<br>
+<b>Date:</b> ${c.date}<br>
+<b>Complaint:</b> ${c.msg}
+</div>
+`;
+});
+
+document.getElementById("list").innerHTML=html;
+}
+
+showComplaints();
+</script>
+
+</body>
+</html>
