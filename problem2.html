@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Water Problem Complaint</title>
+
+<style>
+body{
+font-family:Arial;
+margin:0;
+background:#eef5ff;
+}
+
+header{
+background:#1565c0;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+box-shadow:0 4px 8px rgba(0,0,0,0.2);
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+}
+
+button{
+background:#1565c0;
+color:white;
+border:none;
+padding:12px;
+cursor:pointer;
+}
+
+.complaint{
+border-left:5px solid #1565c0;
+padding:15px;
+margin:10px 0;
+background:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Water Problem Complaint</h1>
+<p>Report Drinking Water & Supply Issues</p>
+</header>
+
+<div class="container">
+
+<div class="box">
+<h2>Problem Information</h2>
+
+<p>
+College me drinking water ki problem hone se students ko daily difficulties hoti hain.
+Clean water availability, water cooler issues aur supply problems common hain.
+</p>
+
+<ul>
+<li>Water cooler not working</li>
+<li>Drinking water shortage</li>
+<li>Dirty water supply</li>
+<li>No water in washrooms</li>
+<li>Pipeline leakage</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>Submit Water Complaint</h2>
+
+<input id="name" placeholder="Your Name">
+<input id="location" placeholder="Problem Location (Block / Floor)">
+<textarea id="msg" placeholder="Describe the water problem"></textarea>
+
+<button onclick="saveComplaint()">Submit Complaint</button>
+</div>
+
+<div class="box">
+<h2>All Water Complaints</h2>
+<div id="list"></div>
+</div>
+
+</div>
+
+<script>
+function saveComplaint(){
+
+let name=document.getElementById("name").value;
+let location=document.getElementById("location").value;
+let msg=document.getElementById("msg").value;
+
+let complaints=JSON.parse(localStorage.getItem("waterComplaints")||"[]");
+
+complaints.push({
+name,location,msg,date:new Date().toLocaleDateString()
+});
+
+localStorage.setItem("waterComplaints",JSON.stringify(complaints));
+
+alert("Water Complaint Submitted Successfully!");
+location.reload();
+}
+
+function showComplaints(){
+
+let complaints=JSON.parse(localStorage.getItem("waterComplaints")||"[]");
+
+let html="";
+
+complaints.forEach(c=>{
+html+=`
+<div class="complaint">
+<b>Name:</b> ${c.name}<br>
+<b>Location:</b> ${c.location}<br>
+<b>Date:</b> ${c.date}<br>
+<b>Complaint:</b> ${c.msg}
+</div>
+`;
+});
+
+document.getElementById("list").innerHTML=html;
+}
+
+showComplaints();
+</script>
+
+</body>
+</html>
