@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submit Complaint</title>
+
+<style>
+body{font-family:Arial;background:#f4f4f4;padding:20px;}
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
+input,textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+}
+button{
+background:#0d47a1;
+color:white;
+padding:10px;
+border:none;
+cursor:pointer;
+}
+.complaint{
+background:#fff;
+padding:15px;
+margin:10px 0;
+border-left:5px solid red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>Submit Complaint</h2>
+
+<input id="name" placeholder="Your Name">
+<input id="dept" placeholder="Department">
+<textarea id="msg" placeholder="Write Complaint"></textarea>
+
+<button onclick="saveComplaint()">Submit</button>
+</div>
+
+<h2>All Complaints</h2>
+<div id="list"></div>
+
+<script>
+function saveComplaint(){
+let name=document.getElementById("name").value;
+let dept=document.getElementById("dept").value;
+let msg=document.getElementById("msg").value;
+
+let complaints=JSON.parse(localStorage.getItem("complaints")||"[]");
+
+complaints.push({name,dept,msg});
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+location.reload();
+}
+
+function showComplaints(){
+let complaints=JSON.parse(localStorage.getItem("complaints")||"[]");
+
+let html="";
+complaints.forEach(c=>{
+html+=`<div class="complaint">
+<b>${c.name}</b> (${c.dept})<br>${c.msg}
+</div>`;
+});
+
+document.getElementById("list").innerHTML=html;
+}
+
+showComplaints();
+</script>
+
+</body>
+</html>
